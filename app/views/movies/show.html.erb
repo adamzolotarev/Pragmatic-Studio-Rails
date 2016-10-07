@@ -1,0 +1,19 @@
+<h1><%= @movie.title %></h1>
+<artilcle>
+  <header>
+    <h1><%= @movie.description %> </h1>
+  </header>
+  <h2> Description </h2>
+  <p>
+    <%= @movie.description %>
+  </p>
+  <h3> Rating </h3>
+  <p>
+    <% @movie.released_on %>
+  </p>
+  <p>
+    <h3>Total Gross</h3>
+    <p>
+      <%= format_total_gross(@movie) %>
+    </p>
+  </artilcle>
