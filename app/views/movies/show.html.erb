@@ -1,7 +1,7 @@
 <h1><%= @movie.title %></h1>
 <artilcle>
   <header>
-    <h1><%= @movie.description %> </h1>
+    <h1><%= @movie.title %> </h1>
   </header>
   <h2> Description </h2>
   <p>
@@ -9,13 +9,15 @@
   </p>
   <h3> Rating </h3>
   <p>
-    <% @movie.released_on %>
-  </p>
-  <p>
-    <h3>Total Gross</h3>
+    <%= @movie.rating %>
     <p>
-      <%= format_total_gross(@movie) %>
+      <%= @movie.released_on %>
     </p>
-    <!-- <a href ="/movies">All Movies</a> -->
-    <%= link_to('All Movies', root_path) %>
-  </artilcle>
+    <p>
+      <h3>Total Gross</h3>
+      <p>
+        <%= format_total_gross(@movie) %>
+      </p>
+      <!-- <a href ="/movies">All Movies</a> -->
+      <%= link_to('All Movies', root_path) %>
+    </artilcle>
