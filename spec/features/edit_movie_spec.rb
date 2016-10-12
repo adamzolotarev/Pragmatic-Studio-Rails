@@ -15,5 +15,13 @@ describe 'Editing a movie' do
     expect(find_field('Rating').value).to eq(movie.rating)
     # expect(find_field('Released').value).to eq(movie.released_on)
     expect(find_field('Total gross').value).to eq('300000.0')
+
+    fill_in 'Title', with: 'Updated Movie Title'
+
+    click_button 'Update Movie'
+
+    expect(current_path).to eq(movie_path(movie))
+
+    expect(page).to have_text('Updated Movie Title')
   end
 end
