@@ -2,7 +2,12 @@
   <header>
     <%= image_for(@movie) %>
     <h1><%= @movie.title %></h1>
-    <h2>Released: <%= @movie.released_on %></h2>
+    <h2>Released:
+      <%= @movie.released_on %></h2>
+    <h3>Average Review</h3>
+    <p>
+      <%= format_average_stars(@movie) %>
+    </p>
   </header>
 
   <p>
@@ -10,7 +15,9 @@
   </p>
 
   <h3 class="no-rule">
-    <%= @movie.rating %> &bull; <%= @movie.duration %>
+    <%= @movie.rating %>
+    &bull;
+    <%= @movie.duration %>
   </h3>
 
   <h3>Cast</h3>
@@ -27,9 +34,27 @@
   <p>
     <%= format_total_gross(@movie) %>
   </p>
+
+  <% if @movie.recent_reviews.any? %>
+  <h3>Recent Reviews</h3>
+  <ol id="reviews">
+    <% @movie.recent_reviews.each do |review| %>
+    <li>
+      <span class="review"><%= pluralize(review.stars, 'star') %></span>
+      <span class="user">by <%= review.name %></span>
+      <span class="date"><%= time_ago_in_words(review.created_at) %> ago</span>
+      <p>
+        &quot;<%= review.comment %>&quot;
+      </p>
+    </li>
+    <% end %>
+  </ol>
   <p>
-    <%= link_to pluralize(@movie.reviews.size, 'review'), movie_reviews_path(@movie) %>
+    Read all
+    <%= link_to pluralize(@movie.reviews.size, "review"),
+                    movie_reviews_path(@movie) %>
   </p>
+  <% end %>
 
   <footer>
     <nav>

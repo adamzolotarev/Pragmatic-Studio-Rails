@@ -22,4 +22,12 @@ class Movie < ApplicationRecord
   def self.hits
     where('total_gross >= ?', 300_000_000).order(total_gross: :desc)
   end
+
+  def average_stars
+    reviews.average(:stars)
+  end
+
+  def recent_reviews
+    reviews.order('created_at desc').limit(2)
+  end
 end
