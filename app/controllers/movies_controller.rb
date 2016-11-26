@@ -2,7 +2,18 @@ class MoviesController < ApplicationController
   before_action :require_signin, except: [:index, :show]
   before_action :require_admin, except: [:index, :show]
   def index
-    @movies = Movie.released
+    @movies = case params[:scope]
+              when 'hits'
+                Movie.hits
+              when 'flops'
+                Movie.flops
+              when 'upcoming'
+                @movies = Movie.upcoming
+              when 'recent'
+                @movies = Movie.recent
+              else
+                Movie.released
+              end
     # @movies = Movie.limit(1)
   end
 

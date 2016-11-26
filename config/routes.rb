@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  # get 'movies/filter/:scope' => "movies#index", as: :filtered_movies
+  get 'movies/:scope' => "movies#index",
+    constraints: { scope: /hits|flops|upcoming|recent/ }, as: :filtered_movies
+
   resources :genres
   get 'signin' => 'sessions#new'
   resource :session
