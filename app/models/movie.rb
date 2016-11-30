@@ -1,8 +1,6 @@
 class Movie < ApplicationRecord
-  has_many :favorites, dependent: :destroy
-  has_many :fans, through: :favorites, source: :user
-  has_many :characterizations, dependent: :destroy
-  has_many :genres, through: :characterizations
+  before_validation :generate_slug
+
   validates :title, :released_on, :duration, presence: true
 
   validates :description, length: { minimum: 25 }
@@ -18,7 +16,16 @@ class Movie < ApplicationRecord
 
   validates :rating, inclusion: { in: RATINGS }
 
+  validates :title, presence: true, uniqueness: true
+  validates :slug, uniqueness: true
+
   has_many :reviews, dependent: :destroy
+
+  has_many :favorites, dependent: :destroy
+  has_many :fans, through: :favorites, source: :user
+
+  has_many :characterizations, dependent: :destroy
+  has_many :genres, through: :characterizations
 
   scope :released, -> { where("released_on <= ?", Time.now).order(released_on: :desc) }
   scope :hits, -> { released.where('total_gross >= 300000000').order(total_gross: :desc) }
@@ -41,5 +48,13 @@ class Movie < ApplicationRecord
 
   def recent_reviews
     reviews.order('created_at desc').limit(2)
+  end
+
+  def to_param
+    slug
+  end
+
+  def generate_slug
+    self.slug ||= title.parameterize if title
   end
 end
